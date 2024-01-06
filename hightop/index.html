@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TPU Shoe Configurator | Covestro | John Fox, BMI</title>
+    <meta name="description" content="Demonstrates Covestro's ability to change standard material with recyclable material without losing design appeal." />
+    <meta name="keywords" content="color, material, configurator, tpu, circular materials, shoe" />
+    <meta name="author" content="John Fox" />
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:500,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <!-- We add the loader CSS here so that assets don't pop in before the bundled CSS is loaded -->
+    <style>
+    .loading {
+        position: fixed;
+        z-index: 50;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: #f1f1f1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .loader {
+        -webkit-perspective: 120px;
+        -moz-perspective: 120px;
+        -ms-perspective: 120px;
+        perspective: 120px;
+        width: 100px;
+        height: 100px;
+    }
+
+    .loader::before {
+        content: "";
+        position: absolute;
+        left: 25px;
+        top: 25px;
+        width: 50px;
+        height: 50px;
+        background-color: #23afe5;
+        animation: flip 1s infinite;
+    }
+
+    @keyframes flip {
+        0% {
+            transform: rotate(0);
+        }
+
+        50% {
+            transform: rotateY(180deg);
+        }
+
+        100% {
+            transform: rotateY(180deg) rotateX(180deg);
+        }
+    }
+    </style>
+</head>
+
+<body>
+
+    <!-- The loading element overlays all else until the model is loaded, at which point we remove this element from the DOM -->
+    <div class="loading" id="js-loader">
+        <div class="loader"></div>
+    </div>
+    <!-- Just a quick notice to the user that it can be interacted with -->
+    <span class="drag-notice" id="js-drag-notice">Covestro TPU Shoe Demo</span>
+    <!-- These toggle the the different parts of the shoe that can be edited, note data-option is the key that links to the name of the part in the 3D file -->
+    <div class="options">
+      <div class="option --is-active" data-option="top">
+          Top
+      </div>
+      <div class="option" data-option="upper">
+          Upper
+      </div>
+        <div class="option" data-option="main_part">
+            Overlay
+        </div>
+        <div class="option" data-option="tongue">
+            Tongue
+        </div>
+        <div class="option" data-option="lining">
+            Lining
+        </div>
+        <div class="option" data-option="sole">
+            Sole
+        </div>
+        <div class="option" data-option="bottom">
+            Bottom
+        </div>
+
+    </div>
+    <div id="top_brand" class="topbar">
+      <p><img src="../img/COV_logo_brandmark_2x.png"></p><p>TPU Material Demonstrator</p>
+        <div class="other_shoe_link"><a href="../athletic/">Athletic</a> | <a href="../hiking/">Hiking Boot</a></div>
+    </div>
+
+    <!-- The canvas element is used to draw the 3D scene -->
+    <div id="materials-list">
+      <p class="sidebar_header">Available TPU Material Types</p>
+<div class="material-div">
+<div class="material-image">
+  <a onclick="selectSwatch2({color:'ebebeb', bumpMap: 'img/foam_grip.jpg', size:[1, 1, 1], bumpScale:0.45});"><img src="img/thumbs/thumb_foam_grip.jpg" /></a>
+  <br><br>
+  <div class="swatches">
+  <div class="swatch1" onclick="selectSwatch2({color:'9d2762', bumpMap: 'img/foam_grip.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch2" onclick="selectSwatch2({color:'ff6666', bumpMap: 'img/foam_grip.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch3" onclick="selectSwatch2({color:'009999', bumpMap: 'img/foam_grip.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch4" onclick="selectSwatch2({color:'333366', bumpMap: 'img/foam_grip.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch5" onclick="selectSwatch2({color:'999966', bumpMap: 'img/foam_grip.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  </div>
+</div>
+<div class="material-text-data">
+  <h2>Dotted Surface</h2>
+  <p>Desmopan TPU<br>
+    Injection Molded<br><br>
+  &#10004; Bio Based<br>
+  &#10004; CO2 Based<br>
+  &#10004; Vegan<br><br>
+  Special Properties: Low wear loss, highly elastic
+</p>
+
+</div>
+</div>
+
+<div class="material-div">
+<div class="material-image">
+  <a onclick="selectSwatch2({color:'ffffff', bumpMap: 'img/rubber.jpg', size:[1, 1, 1], bumpScale:0.2});"><img src="img/thumbs/thumb_rubber.jpg" /></a>
+  <br><br>
+  <div class="swatches">
+  <div class="swatch1" onclick="selectSwatch2({color:'9d2762', bumpMap: 'img/rubber.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch2" onclick="selectSwatch2({color:'ff6666', bumpMap: 'img/rubber.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch3" onclick="selectSwatch2({color:'009999', bumpMap: 'img/rubber.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch4" onclick="selectSwatch2({color:'333366', bumpMap: 'img/rubber.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch5" onclick="selectSwatch2({color:'999966', bumpMap: 'img/rubber.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  </div>
+</div>
+<div class="material-text-data">
+  <h2>Rubber-Like</h2>
+  <p>Desmopan TPU<br>
+    Injection Molded<br><br>
+  &#10004; Bio Based<br>
+  &#10004; CO2 Based<br>
+  &#10004; Vegan<br><br>
+  Special Properties: Low wear loss, highly elastic
+</p>
+</div>
+</div>
+
+<div class="material-div">
+<div class="material-image">
+  <a onclick="selectSwatch2({color:'ffffff',shininess: 20 });"><img src="img/thumbs/thumb_scuffed-plastic.jpg" /></a>
+  <br><br>
+  <div class="swatches">
+  <div class="swatch1" onclick="selectSwatch2({color:'9d2762'});"></div>
+  <div class="swatch2" onclick="selectSwatch2({color:'ff6666'});"></div>
+  <div class="swatch3" onclick="selectSwatch2({color:'009999'});"></div>
+  <div class="swatch4" onclick="selectSwatch2({color:'333366'});"></div>
+  <div class="swatch5" onclick="selectSwatch2({color:'999966'});"></div>
+  </div>
+</div>
+<div class="material-text-data">
+  <h2>Flat Surface</h2>
+  <p>Desmopan TPU<br>
+    Injection Molded<br><br>
+  &#10004; Bio Based<br>
+  &#10004; CO2 Based<br>
+  &#10004; Vegan<br><br>
+  Special Properties: Low wear loss, highly elastic
+</p>
+</div>
+</div>
+
+
+<div class="material-div">
+<div class="material-image">
+  <a onclick="selectSwatch2({color:'ffffff', bumpMap: 'img/polymer_grip.jpg', size:[1, 1, 1], bumpScale:0.2});"><img src="img/thumbs/thumb_polymer_grip.jpg" /></a>
+  <br><br>
+  <div class="swatches">
+  <div class="swatch1" onclick="selectSwatch2({color:'9d2762', bumpMap: 'img/polymer_grip.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch2" onclick="selectSwatch2({color:'ff6666', bumpMap: 'img/polymer_grip.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch3" onclick="selectSwatch2({color:'009999', bumpMap: 'img/polymer_grip.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch4" onclick="selectSwatch2({color:'333366', bumpMap: 'img/polymer_grip.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch5" onclick="selectSwatch2({color:'999966', bumpMap: 'img/polymer_grip.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  </div>
+
+</div>
+<div class="material-text-data">
+  <h2>Rough Surface</h2>
+  <p>Desmopan TPU<br>
+    Injection Molded<br><br>
+  &#10004; Bio Based<br>
+  &#10004; CO2 Based<br>
+  &#10004; Vegan<br><br>
+  Special Properties: Low wear loss, highly elastic
+  </p>
+</div>
+</div>
+
+<div class="material-div" >
+<div class="material-image"><a onclick="selectSwatch2({color:'ebebeb', bumpMap: 'img/fiber_twill_weave.jpg', size:[1, 1, 1], bumpScale:0.2});"><img src="img/thumbs/thumb_fiber_twill_weave.jpg" /></a>
+
+  <br><br>
+  <div class="swatches">
+  <div class="swatch1" onclick="selectSwatch2({color:'9d2762', bumpMap: 'img/fiber_twill_weave.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch2" onclick="selectSwatch2({color:'ff6666', bumpMap: 'img/fiber_twill_weave.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch3" onclick="selectSwatch2({color:'009999', bumpMap: 'img/fiber_twill_weave.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch4" onclick="selectSwatch2({color:'333366', bumpMap: 'img/fiber_twill_weave.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch5" onclick="selectSwatch2({color:'999966', bumpMap: 'img/fiber_twill_weave.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+
+</div></div>
+<div class="material-text-data">
+  <h2>Fiber Twill Weave</h2>
+  <p>Desmopan TPU<br>
+    Melt Spinning<br><br>
+  &#10004; Bio Based<br>
+  &#10004; CO2 Based<br>
+  &#10004; Vegan<br><br>
+  Special Properties:
+  <br><br>
+  Dye-able<br>
+  3D heat pressed<br><br>
+  Water proof (after heat pressing)<br>
+</p>
+<p></p>
+
+</div>
+</div>
+
+<div class="material-div">
+<div class="material-image"><a onclick="selectSwatch2({color:'ebebeb', bumpMap: 'img/leather_like.jpg', size:[1, 1, 1], bumpScale:0.2});"><img src="img/thumbs/thumb_leather_like.jpg" /></a>
+  <br><br>
+  <div class="swatches">
+  <div class="swatch1" onclick="selectSwatch2({color:'9d2762', bumpMap: 'img/leather_like.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch2" onclick="selectSwatch2({color:'ff6666', bumpMap: 'img/leather_like.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch3" onclick="selectSwatch2({color:'009999', bumpMap: 'img/leather_like.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch4" onclick="selectSwatch2({color:'333366', bumpMap: 'img/leather_like.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch5" onclick="selectSwatch2({color:'999966', bumpMap: 'img/leather_like.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+
+  </div>
+
+
+</div>
+<div class="material-text-data">
+  <h2>Leather Like</h2>
+  <p>Desmopan TPU<br>
+    Co-extrusion<br><br>
+  &#10004; Bio Based<br>
+  &#10004; CO2 Based<br>
+  &#10004; Vegan<br><br>
+  Special Properties: Durable surface, Zero solvent process, Low VOC<br><br>
+
+  </p>
+</div>
+</div>
+
+<div class="material-div">
+<div class="material-image"><a onclick="selectSwatch2({color:'ebebeb', bumpMap: 'img/leather_like_02.jpg', size:[1, 1, 1], bumpScale:0.2});"><img src="img/thumbs/thumb_leather_like_02.jpg" /></a>
+  <br><br>
+  <div class="swatches">
+  <div class="swatch1" onclick="selectSwatch2({color:'9d2762', bumpMap: 'img/leather_like_02.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch2" onclick="selectSwatch2({color:'ff6666', bumpMap: 'img/leather_like_02.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch3" onclick="selectSwatch2({color:'009999', bumpMap: 'img/leather_like_02.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch4" onclick="selectSwatch2({color:'333366', bumpMap: 'img/leather_like_02.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch5" onclick="selectSwatch2({color:'999966', bumpMap: 'img/leather_like_02.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+
+  </div>
+</div>
+<div class="material-text-data">
+  <h2>Leather Like v2</h2>
+  <p>Desmopan TPU<br>
+    Co-extrusion<br><br>
+  &#10004; Bio Based<br>
+  &#10004; CO2 Based<br>
+  &#10004; Vegan<br><br>
+  Special Properties:
+  <br><br>
+ Dye-able<br>
+ 3D heat pressed<br>
+ Stronger mesh<br>
+ Water proof (after heat pressing)<br>
+
+</p>
+<p></p>
+</div>
+</div>
+
+<div class="material-div">
+<div class="material-image"><a onclick="selectSwatch2({color:'f7b054', bumpMap: 'img/fabric.jpg', size:[1, 1, 1], bumpScale:0.1});"><img src="img/thumbs/thumb_fabric.jpg" /></a>
+  <br><br>
+  <div class="swatches">
+  <div class="swatch1" onclick="selectSwatch2({color:'9d2762', bumpMap: 'img/fabric.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch2" onclick="selectSwatch2({color:'ff6666', bumpMap: 'img/fabric.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch3" onclick="selectSwatch2({color:'009999', bumpMap: 'img/fabric.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch4" onclick="selectSwatch2({color:'333366', bumpMap: 'img/fabric.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch5" onclick="selectSwatch2({color:'999966', bumpMap: 'img/fabric.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+
+  </div>
+
+</div>
+<div class="material-text-data">
+  <h2>Fabric</h2>
+  <p>Desmopan TPU<br>
+    Melt Spinning<br><br>
+  &#10004; Bio Based<br>
+  &#10004; CO2 Based<br>
+  &#10004; Vegan<br><br>
+  Special Properties: Durable surface, Zero solvent process, Low VOC<br><br>
+
+  </p>
+</div>
+</div>
+
+<div class="material-div">
+<div class="material-image"><a onclick="selectSwatch2({color:'ebebeb', bumpMap: 'img/styrofoam.jpg', size:[1, 1, 1], bumpScale:0.1});"><img src="img/thumbs/thumb_styrofoam.jpg" /></a>
+  <br><br>
+  <div class="swatches">
+  <div class="swatch1" onclick="selectSwatch2({color:'9d2762', bumpMap: 'img/styrofoam.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch2" onclick="selectSwatch2({color:'ff6666', bumpMap: 'img/styrofoam.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch3" onclick="selectSwatch2({color:'009999', bumpMap: 'img/styrofoam.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch4" onclick="selectSwatch2({color:'333366', bumpMap: 'img/styrofoam.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch5" onclick="selectSwatch2({color:'999966', bumpMap: 'img/styrofoam.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+
+  </div>
+</div>
+<div class="material-text-data">
+  <h2>eTPU</h2>
+  <p>Desmopan TPU<br>
+    Foamed by CO2<br><br>
+  &#10004; Bio Based<br>
+  &#10004; CO2 Based<br>
+  &#10004; Vegan<br><br>
+  Special Properties: Durable with low compression set, high energy return
+  </p>
+</div>
+</div>
+
+<div class="material-div">
+<div class="material-image"><a onclick="selectSwatch2({color:'f734fe', bumpMap: 'img/woven_structure.jpg', size:[1, 1, 1], bumpScale:0.1});"><img src="img/thumbs/thumb_woven_structure.jpg" /></a>
+
+  <br><br>
+  <div class="swatches">
+  <div class="swatch1" onclick="selectSwatch2({color:'9d2762', bumpMap: 'img/woven_structure.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch2" onclick="selectSwatch2({color:'ff6666', bumpMap: 'img/woven_structure.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch3" onclick="selectSwatch2({color:'009999', bumpMap: 'img/woven_structure.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch4" onclick="selectSwatch2({color:'333366', bumpMap: 'img/woven_structure.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch5" onclick="selectSwatch2({color:'999966', bumpMap: 'img/woven_structure.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+
+  </div>
+</div>
+<div class="material-text-data">
+  <h2>Basic Woven Structure</h2>
+  <p>Desmopan TPU<br>
+    Melt Spinning<br><br>
+  &#10004; Bio Based<br>
+  &#10004; CO2 Based<br>
+  &#10004; Vegan<br><br>
+  Special Properties:
+ <br><br>
+ High weaving/knitting machine compatibility<br>
+  Dye-able<br>
+ 3D shape by heat press<br>
+  Stronger mesh<br>
+ Water proof (after heat pressing)<br>
+
+  </p>
+  <p></p>
+</div>
+</div>
+
+<div class="material-div">
+<div class="material-image"><a onclick="selectSwatch2({color:'ebebeb', bumpMap: 'img/fabric_mesh.jpg', size:[1, 1, 1], bumpScale:0.1});"><img src="img/thumbs/thumb_fabric_mesh.jpg" /></a>
+
+  <br><br>
+  <div class="swatches">
+  <div class="swatch1" onclick="selectSwatch2({color:'9d2762', bumpMap: 'img/fabric_mesh.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch2" onclick="selectSwatch2({color:'ff6666', bumpMap: 'img/fabric_mesh.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch3" onclick="selectSwatch2({color:'009999', bumpMap: 'img/fabric_mesh.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch4" onclick="selectSwatch2({color:'333366', bumpMap: 'img/fabric_mesh.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+  <div class="swatch5" onclick="selectSwatch2({color:'999966', bumpMap: 'img/fabric_mesh.jpg', size:[1, 1, 1], bumpScale:0.45});"></div>
+
+  </div>
+
+</div>
+<div class="material-text-data">
+  <h2>Fabric Mesh</h2>
+  <p>Desmopan TPU<br>
+    Melt Spinning<br><br>
+  &#10004; Bio Based<br>
+  &#10004; CO2 Based<br>
+  &#10004; Vegan<br><br>
+  Special Properties:
+ <br><br>
+  High weaving/knitting machine compatibility<br>
+  Dye-able<br>
+  3D shape by heat press<br>
+  Water proof (after heat pressing)<br>
+    </p>
+  <p></p>
+</div>
+</div>
+
+<div class="material-div">
+<div class="material-image"><a onclick="selectSwatch2({texture: 'img/denim.jpg', size:[2, 2, 2],shininess: 0});"><img src="img/thumbs/thumb_denim.jpg" /></a></div>
+<div class="material-text-data">
+  <h2>Denim</h2>
+  <p>Desmopan TPU<br>
+    Melt Spinning<br><br>
+  &#10004; Bio Based<br>
+  &#10004; CO2 Based<br>
+  &#10004; Vegan<br><br>
+  Special Properties:
+  <br><br>
+   High weaving/knitting machine compatibility<br>
+  Dye-able<br>
+  3D shape by heat press<br>
+   Water proof (after heat pressing)<br>
+
+  </p>
+  <p></p>
+</div>
+</div>
+
+<div class="material-div">
+<div class="material-image"><a onclick="selectSwatch2({texture: 'img/fabric_multi_color.jpg', size:[2, 2, 2],shininess: 0});"><img src="img/thumbs/thumb_fabric_multi_color.jpg" /></a></div>
+<div class="material-text-data">
+  <h2>Multicolored Fabric</h2>
+  <p>Desmopan TPU<br>
+    Melt Spinning<br><br>
+  &#10004; Bio Based<br>
+  &#10004; CO2 Based<br>
+  &#10004; Vegan<br><br>
+  Special Properties:
+<br><br>
+   High weaving/knitting machine compatibility<br>
+  Dye-able<br>
+ 3D shape by heat press<br>
+ Water proof (after heat pressing)<br>
+
+  </p>
+  <p></p>
+</div>
+</div>
+    </div>
+
+    <canvas id="main_shoe"></canvas>
+
+
+
+    <div class="controls">
+        <!-- This tray will be filled with colors via JS, and the ability to slide this panel will be added in with a lightweight slider script (no dependency used for this) -->
+        <div id="js-tray" class="tray">
+            <div id="js-tray-slide" class="tray__slide"></div>
+        </div>
+    </div>
+
+    <!-- The main three.js file -->
+    <script src='../js/three.min.js'></script>
+    <!-- This brings in the ability to load custom 3D objects in the .gltf file format. Blender allows the ability to export to this format out the box -->
+    <script src='../js/Loaders/GLTFLoader.js'></script>
+    <!-- This is a simple to use extension for three.js that activates all the rotating, dragging and zooming controls we need for both mouse and touch, there isn't a clear CDN for this that I can find -->
+    <script src='../js/Controls/OrbitControls.js'></script>
+    <script src="./script.js"></script>
+</body>
+
+</html>
