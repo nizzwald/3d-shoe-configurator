@@ -3,6 +3,9 @@ The 3d-shoe-configurator requires Three.js – JavaScript 3D Library, https://th
 The idea for the 3d shoe configurator is to demonstrate various materials and textures 
 that could be applied to a shoe. 
 
+To start the application, click the index.html file within one of the three shoes folders:
+hiking, athletic, high top
+
 The application uses 3 3D, GLB files that are read in by three.js
 
 ![shoe_3D_athletic](https://github.com/nizzwald/3d-shoe-configurator/assets/3354603/b36fc66c-1f7c-4e37-b1df-a2d692c89234)
